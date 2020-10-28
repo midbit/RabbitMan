@@ -4,12 +4,12 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using Interface.Service;
-using Model;
+using Interface.Model;
 using System.Threading.Tasks;
 
 namespace Service 
 {
-    class TwitterClient:IStream
+    class TwitterClient<T>: IStream  where T : IStreamable 
     {
         static readonly HttpClient client = new HttpClient();
         private string token;
@@ -45,39 +45,16 @@ namespace Service
             string twitter_token = String.Format("Bearer {0}", token);
             client.DefaultRequestHeaders.Add("Authorization", twitter_token);        
         }
-        private async Task<String> Broadcast(Tweet tweet)
+        private async Task<String> Broadcast(T tweet)
         {
-            if(ShouldBroadcast(tweet))
+            if(tweet.ShouldBroadcast())
             {
                 return await broadcastService.Broadcast(tweet.ConvertToMessage());
             }
-            return("404");
+            return("Should not broadcast");
         }
 
-        private bool ShouldBroadcast(Tweet tweet)
-        {
-            try
-            {
-                if(tweet.includes.users[0].username == "FreeYOUTHth")
-                {
-                    if(tweet.data.entities.hashtags != null && tweet.data.entities.hashtags.Length != 0)
-                    {
-                        foreach (Hashtag hashtag in tweet.data.entities.hashtags)
-                        {
-                            if(hashtag.tag.Contains("ม๊อบ"))
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            catch(NullReferenceException)
-            {
-                return false;
-            }
-            return false;
-        }
+        
         public async Task Stream()
         {
             HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
@@ -93,7 +70,7 @@ namespace Service
                             try
                             {
                                 Console.WriteLine(jsonData);
-                                Tweet tweet = JsonSerializer.Deserialize<Tweet>(jsonData);
+                                T tweet = JsonSerializer.Deserialize<T>(jsonData);
                                 var result = await Broadcast(tweet);
                                 Console.WriteLine(result);
                             }

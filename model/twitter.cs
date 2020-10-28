@@ -69,6 +69,31 @@ namespace Model
         public TweetInclude includes {get; set;}
         public TweetMatchingRule[] matching_rules {get; set;}
         public Tweet(){}
+        public bool ShouldBroadcast()
+        {
+         
+            try
+            {
+                if(this.includes.users[0].username == "FreeYOUTHth")
+                {
+                    if(this.data.entities.hashtags != null && this.data.entities.hashtags.Length != 0)
+                    {
+                        foreach (Hashtag hashtag in this.data.entities.hashtags)
+                        {
+                            if(hashtag.tag.Contains("ม๊อบ"))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(NullReferenceException)
+            {
+                return false;
+            }
+            return false;
+        }
         private string FindImage()
         {
             try
