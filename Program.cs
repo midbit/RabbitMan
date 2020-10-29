@@ -2,6 +2,7 @@
 using Service;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http;
 using Model;
 namespace RabbitMan
 {
@@ -26,9 +27,13 @@ namespace RabbitMan
                 }
                 catch(IOException)
                 {
-                    Console.WriteLine("Attempting to reconnect");
-                    System.Threading.Thread.Sleep(5000);
-                    await twitterClient.Stream();
+                    Console.WriteLine("Attempting to reconnect waiting 10 second.");
+                    System.Threading.Thread.Sleep(10000);
+                }
+                catch(HttpRequestException)
+                {
+                    Console.WriteLine("Attempting to reconnect waiting 10 second.");
+                    System.Threading.Thread.Sleep(10000);
                 }
             }
         }

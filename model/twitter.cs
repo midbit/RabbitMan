@@ -74,18 +74,25 @@ namespace Model
          
             try
             {
-                if(this.includes.users[0].username == "FreeYOUTHth")
+                if(this.includes.users[0].username != "BTS_SkyTrain")
                 {
                     if(this.data.entities.hashtags != null && this.data.entities.hashtags.Length != 0)
                     {
                         foreach (Hashtag hashtag in this.data.entities.hashtags)
                         {
-                            if(hashtag.tag.Contains("ม๊อบ"))
+                            Console.WriteLine(hashtag.tag);
+                            if(hashtag.tag.Contains("ม็อบ"))
                             {
+
                                 return true;
                             }
                         }
                     }
+                }
+                else
+                {
+                    Console.WriteLine(data.text);
+                    return this.data.text.Contains("ปิดบริการ") || this.data.text.Contains("เปิดบริการ");
                 }
             }
             catch(NullReferenceException)
