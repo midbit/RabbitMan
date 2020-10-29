@@ -7,7 +7,7 @@ This was originally a toy project for me to practice C# and .NET Core framework 
 ## Adding the bot
 Adding the RabbitMan line bot is easy, you can do it from  the following QR code.
 
-![alt text](https://qr-official.line.me/sid/L/256oxbuu.png, "RabbitMan QR Code")
+![alt text](RabbitMan_QR.png)
 
 
 ## Extending RabbitMan
