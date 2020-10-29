@@ -103,7 +103,7 @@ namespace Model
                 else
                 {
                     Console.WriteLine(data.text);
-                    return this.data.text.Contains("ปิดบริการ") || this.data.text.Contains("เปิดบริการ");
+                    return this.data.text.Contains("ปิดบริการ") || this.data.text.Contains("เปิดให้บริการ");
                 }
             }
             catch(NullReferenceException)
