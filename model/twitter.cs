@@ -44,9 +44,20 @@ namespace Model
         public string name{get; set;}
         public string username {get; set;}
     }
+    class TweetMedia
+    {
+        public int height{get; set;}
+        public int width{get; set;}
+        public string url{get; set;}
+        public string type{get; set;}
+        public string media_key{get; set;}
+
+        public TweetMedia(){}
+    }
     class TweetInclude
     {
         public TweetUser[] users {get; set;}
+        public TweetMedia[] media{get; set;}
         public TweetInclude(){}
     }
     class TweetMatchingRule
@@ -105,15 +116,15 @@ namespace Model
         {
             try
             {
-                if(this.data != null)
+                if(this.includes != null)
                 {
-                    if(this.data.entities != null)
+                    if(this.includes.media != null  && this.includes.media.Length > 0)
                     {
-                        if(this.data.entities.urls != null && this.data.entities.urls.Length > 0)
+                        foreach(TweetMedia media in this.includes.media)
                         {
-                            if(this.data.entities.urls[0].images.Length > 0 && this.data.entities.urls[0].images != null )
+                            if(media.type == "photo")
                             {
-                                return this.data.entities.urls[0].images[0].url;
+                                return media.url;
                             }
                         }
                     }

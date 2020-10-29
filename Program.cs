@@ -25,13 +25,15 @@ namespace RabbitMan
                 {
                     await twitterClient.Stream();
                 }
-                catch(IOException)
+                catch(IOException e)
                 {
+                    Console.WriteLine(e);
                     Console.WriteLine("Attempting to reconnect waiting 10 second.");
                     System.Threading.Thread.Sleep(10000);
                 }
-                catch(HttpRequestException)
+                catch(HttpRequestException e)
                 {
+                    Console.WriteLine(e);
                     Console.WriteLine("Attempting to reconnect waiting 10 second.");
                     System.Threading.Thread.Sleep(10000);
                 }
